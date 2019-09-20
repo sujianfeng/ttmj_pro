@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>库存统计</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/or/inventory/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;库存统计</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <th>渠道选择：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[2]}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">刷新</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">导出</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>渠道</td>
+                    <td>目前宝石总库存</td>
+                    <td>目前金币总库存</td>
+                    <td>目前天天卡总库存</td>
+                    <td>目前透视卡总库存</td>
+                    <td>目前捣蛋卡总库存</td>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th colspan="7">实时库存</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${dataList}">
+                    <td th:text="${#dates.format(data.d,'yyyy-MM-dd')}">600003</td>
+                    <td th:text="${data.channel}">001</td>
+                    <td th:text="${data.gemCount}">001</td>
+                    <td th:text="${data.goldCount}">001</td>
+                    <td th:text="${data.etCount}">001</td>
+                    <td th:text="${data.tsCount}">001</td>
+                    <td th:text="${data.zdCount}">001</td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th colspan="7">历史库存</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${page.content}">
+                    <td th:text="${#dates.format(data.d,'yyyy-MM-dd')}">600003</td>
+                    <td th:text="${data.channel}">001</td>
+                    <td th:text="${data.gemCount}">001</td>
+                    <td th:text="${data.goldCount}">001</td>
+                    <td th:text="${data.etCount}">001</td>
+                    <td th:text="${data.tsCount}">001</td>
+                    <td th:text="${data.zdCount}">001</td>
+                </tr>
+                </tbody>
+                <tr>
+                    <td></td>
+                    <td th:text="${userInventory.channel}">001</td>
+                    <td th:text="${userInventory.gemCount}">001</td>
+                    <td th:text="${userInventory.goldCount}">001</td>
+                    <td th:text="${userInventory.etCount}">001</td>
+                    <td th:text="${userInventory.tsCount}">001</td>
+                    <td th:text="${userInventory.zdCount}">001</td>
+                </tr>
+            </table>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户管理</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/kindle/server/data/channel_list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>独立包管理 &gt;用户管理</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">订单时间：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <td colspan="6"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                <thead>
+                <tr>
+                    <td width="10%">日期</td>
+                    <td width="10%">合作方</td>
+                    <td width="10%">产品名称</td>
+                    <td width="10%">渠道号</td>
+                    <td width="8%">联网用户</td>
+                    <td width="8%">登陆用户</td>
+                    <td width="8%">新注册客</td>
+                    <td width="8%">付费新客</td>
+                    <td width="8%">总付费客</td>
+                    <td width="8%">二次付费客</td>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${page.content}">
+                    <td th:text="${#dates.format(data.datadate, 'yyyy-MM-dd')}">600003</td>
+                    <td th:text="${data.username}">001</td>
+                    <td th:text="${data.productname}">001</td>
+                    <td th:text="${data.channel_name}">001</td>
+                    <td th:text="${data.net_user}">001</td>
+                    <td th:text="${data.login_user}">001</td>
+                    <td th:text="${data.new_user}">001</td>
+                    <td th:text="${data.pay_user}">001</td>
+                    <td th:text="${data.all_pay_user}">001</td>
+                    <td th:text="${data.second_pay_user}">001</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

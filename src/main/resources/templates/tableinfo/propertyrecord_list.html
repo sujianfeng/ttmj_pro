@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>财产变更记录</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/propertyrecord/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服工具 &gt; 财产变更记录</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th>用户账号：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[0]}"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="2400px" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>用户账号</td>
+                            <td>宝石数量</td>
+                            <td>金币数量</td>
+                            <td>话费(分)</td>
+                            <td>透视卡</td>
+                            <td>遮挡卡</td>
+                            <td>算牌卡</td>
+                            <td>窃听卡</td>
+                            <td>换牌卡</td>
+                            <td>当前宝石数量</td>
+                            <td>当前金币数量</td>
+                            <td>当前话费(分)</td>
+                            <td>当前透视卡</td>
+                            <td>当前遮挡卡</td>
+                            <td>当前算牌卡</td>
+                            <td>当前窃听卡</td>
+                            <td>当前换牌卡</td>
+                            <td>描述说明</td>
+                            <td>记录时间</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${page.content}">
+                            <td th:text="${data.userID}">001</td>
+                            <td th:text="${data.gem}">001</td>
+                            <td th:text="${data.gold}">001</td>
+                            <td th:text="${data.et}">001</td>
+                            <td th:text="${data.ts}">001</td>
+                            <td th:text="${data.zd}">001</td>
+                            <td th:text="${data.sp}">001</td>
+                            <td th:text="${data.qt}">001</td>
+                            <td th:text="${data.hp}">001</td>
+                            <td th:text="${data.curGem}">001</td>
+                            <td th:text="${data.curGold}">001</td>
+                            <td th:text="${data.curET}">001</td>
+                            <td th:text="${data.curTS}">001</td>
+                            <td th:text="${data.curZD}">001</td>
+                            <td th:text="${data.curSP}">001</td>
+                            <td th:text="${data.curQT}">001</td>
+                            <td th:text="${data.curHP}">001</td>
+                            <td th:text="${data.desc}">001</td>
+                            <td th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

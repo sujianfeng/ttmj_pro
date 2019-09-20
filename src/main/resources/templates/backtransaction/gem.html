@@ -1,0 +1,144 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>宝石话费</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/bt/gem/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>后台事务 &gt;宝石话费</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">调整宝石</b></td>
+                </tr>
+                <tr>
+                    <th width="90">发送给:</th>
+                    <td><input type="text" class="inp w240" id="gemUserID" name="gemUserID"/></td>
+                    <th width="90">数量:</th>
+                    <td><input type="number" class="inp w240" id="gemCount" name="gemCount"/></td>
+                </tr>
+                <tr>
+                    <th width="90">说明:</th>
+                    <td colspan="3"><input type="text" class="inp_long" id="gemDesc" name="gemDesc"/></td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center">
+                        <p><a id="gemSaveLink" href="javascript:gemFormSubmit()" class="btn2 mr25">提交</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+                <tr>
+                    <td colspan="4"><b class="f14">调整天天卡</b></td>
+                </tr>
+                <tr>
+                    <th width="90">发送给:</th>
+                    <td><input type="text" class="inp w240" id="etUserID" name="etUserID"/></td>
+                    <th width="90">数量:</th>
+                    <td><input type="number" class="inp w240" id="etCount" name="etCount"/></td>
+                </tr>
+                <tr>
+                    <th width="90">说明:</th>
+                    <td colspan="3"><input type="text" class="inp_long" id="etDesc" name="etDesc"/></td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center">
+                        <p><a id="etSaveLink" href="javascript:etFormSubmit()" class="btn2 mr25">提交</a></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function gemFormSubmit() {
+        if (isEmpty($("#gemUserID").val())) {
+            layer.msg("用户ID不能为空", {icon: 2, time: 1000});
+            $("#gemUserID").focus();
+            return false;
+        }
+        if (isEmpty($("#gemCount").val())) {
+            layer.msg("宝石数量不能为空", {icon: 2, time: 1000});
+            $("#gemCount").focus();
+            return false;
+        }
+
+        $("#gemSaveLink").removeAttr('href');
+
+        $.post("/ttmj/server/bt/gem/saveGem", {
+            "userId": $("#gemUserID").val(),
+            "gem": $("#gemCount").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function () {
+                        window.location.href = "/ttmj/server/bt/gem/list";
+                    }
+                });
+            } else {
+                $("#gemSaveLink").attr('href', 'javascript:gemFormSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+
+    function etFormSubmit() {
+        if (isEmpty($("#etUserID").val())) {
+            layer.msg("用户ID不能为空", {icon: 2, time: 1000});
+            $("#etUserID").focus();
+            return false;
+        }
+        if (isEmpty($("#etUserID").val())) {
+            layer.msg("天天卡数量不能为空", {icon: 2, time: 1000});
+            $("#etCount").focus();
+            return false;
+        }
+
+        $("#etSaveLink").removeAttr('href');
+
+        $.post("/ttmj/server/bt/gem/saveET", {
+            "userId": $("#etUserID").val(),
+            "et": $("#etCount").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: data.isCorrect, btn: ['确定'], yes: function (index) {
+                        window.location.href = "/ttmj/server/bt/gem/list";
+                    }
+                });
+            } else {
+                $("#etSaveLink").attr('href', 'javascript:etFormSubmit()');
+                layer.alert(data.msg, {
+                    icon: data.isCorrect, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</body>
+</html>

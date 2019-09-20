@@ -1,0 +1,100 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>平台管理</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/upload.js}"></script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;平台渠道绑定 &gt; <label th:text="${platformInfo.platformName}"></label> &gt;
+                <label th:text="${channelInfo.id ==null ?'新增':'编辑'}">平台</label>
+            </h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">渠道信息 </b>
+                        <input type="hidden" class="inp w240" id="id" name="id" th:value="${channelInfo.id}"/>
+                        <input type="hidden" class="inp w240" id="platform" name="platform"
+                               th:value="${platformInfo.id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>渠道ID：</th>
+                    <td><input type="number" class="inp w240" id="channel" name="channel"
+                               th:value="${channelInfo.channel}"/></td>
+                    <th>渠道名称：</th>
+                    <td><input type="text" class="inp w240" id="channelName" name="channelName"
+                               th:value="${channelInfo.channelName}"/></td>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><a id="saveLink" href="javascript:formSubmit()" class="btn2 mr25">保存</a>
+                            <a href="javascript:history.back()" class="btn3">取消</a>
+                        </p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function formSubmit() {
+        if (isEmpty($("#channel").val())) {
+            layer.msg("渠道ID不能为空", {icon: 2, time: 1000});
+            $("#channel").focus();
+            return false;
+        }
+        if (isEmpty($("#channelName").val())) {
+            layer.msg("渠道名称不能为空", {icon: 2, time: 1000});
+            $("#channelName").focus();
+            return false;
+        }
+
+        $("#saveLink").removeAttr('href');
+
+        $.post("/ttmj/server/or/channelproject/saveChannel", {
+            "id": $("#id").val(),
+            "channel": $("#channel").val(),
+            "channelName": $("#channelName").val(),
+            "platform": $("#platform").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function () {
+                        var platformId = $("#platform").val();
+                        window.location.href = "/ttmj/server/or/channelproject/channellist?condition=" + platformId;
+                    }
+                });
+            } else {
+                $("#saveLink").attr('href', 'javascript:formSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</body>
+</html>

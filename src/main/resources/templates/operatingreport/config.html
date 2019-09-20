@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>运营配置</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/or/config/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;运营配置</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th>配置类型：</th>
+                    <td>
+                        <select name="condition" class="slc w240" onchange="search()">
+                            <option th:each="ch:${ctlist}" th:value="${ch.type}" th:text="${ch.typeName}"
+                                    th:selected="${(''+ch.type) == condition[0]}"></option>
+                        </select>
+                    </td>
+                    <td colspan="2"><a th:href="@{/server/or/config/editConfig}" class="btn3">添加配置</a></td>
+                </tr>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="1600px" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>类型</td>
+                            <td>平台</td>
+                            <td>渠道</td>
+                            <td>优先级</td>
+                            <td>是否有效</td>
+                            <td>是否打开</td>
+                            <td>描述说明</td>
+                            <td>开始日期</td>
+                            <td>结束日期</td>
+                            <td>开始时间</td>
+                            <td>结束时间</td>
+                            <td>创建时间</td>
+                            <td>修改时间</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${page.content}">
+                            <td th:text="${data.typeName}">001</td>
+                            <td th:text="${data.platfrom}">001</td>
+                            <td th:text="${data.channel}">001</td>
+                            <td th:text="${data.priority}">001</td>
+                            <td th:text="${data.enable==1?'有效':'无效'}">001</td>
+                            <td th:text="${data.on==1?'打开':'关闭'}">001</td>
+                            <td th:text="${data.description}">001</td>
+                            <td th:text="${#dates.format(data.startDate,'yyyy-MM-dd')}">001</td>
+                            <td th:text="${#dates.format(data.endDate,'yyyy-MM-dd')}">001</td>
+                            <td th:text="${#dates.format(data.startTime,'HH:mm:ss')}">001</td>
+                            <td th:text="${#dates.format(data.endTime,'HH:mm:ss')}">001</td>
+                            <td th:text="${#dates.format(data.createTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                            <td th:text="${#dates.format(data.modifyTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                            <td>
+                                <a th:href="@{/server/or/config/editConfig(id=${data.id})}" class="mr25">编辑</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

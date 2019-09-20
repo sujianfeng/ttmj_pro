@@ -1,0 +1,145 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户消息</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/cs/usermsg/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服管理 &gt;用户消息</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">发送消息</b></td>
+                </tr>
+                <tr>
+                    <th width="90">发送给:</th>
+                    <td colspan="3"><input alt="发送给(UerID)" type="number" class="inp w240" id="userId" name="userId"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="90">消息:</th>
+                    <td colspan="3"><input type="text" class="inp_long" id="userMsg" name="userMsg"/></td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="right">
+                        <p><a id="userSaveLink" href="javascript:userFormSubmit()" class="btn2 mr25">发送</a></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" class="inp inp1" name="condition" readonly="readonly"
+                               th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" readonly="readonly"
+                               th:value="${condition[1]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <th>发送ID：</th>
+                    <td><input type="number" class="inp" th:value="${condition[2]}" name="condition"/></td>
+                    <th>接收ID：</th>
+                    <td><input type="number" class="inp" th:value="${condition[3]}" name="condition"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">刷新</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">导出</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="tab1x">
+            <li class="db ww">
+                <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                    <thead>
+                    <tr>
+                        <td width="10%">发送ID</td>
+                        <td width="10%">接收ID</td>
+                        <td width="5%">是否已读</td>
+                        <td width="55%">消息内容</td>
+                        <td width="10%">创建时间</td>
+                        <td width="10%">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr th:each="data,dataStat:${page.content}">
+                        <td th:text="${data.srcID}">001</td>
+                        <td th:text="${data.destID}">001</td>
+                        <td th:text="${data.read==1?'已读':'未读'}">合作中</td>
+                        <td th:text="${data.message}">001</td>
+                        <td th:text="${#dates.format(data.createTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                        <td>
+                            <span th:if="${data.destID==0 && data.read==0}">
+                                <a th:href="@{/server/cs/usermsg/toRead(id=${data.id},condition=${condition})}"
+                                   class="mr25">标记为已读</a>
+                            </span>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+        <div class=" page tac" th:include="search_page :: search_page"></div>
+    </div>
+</div>
+</body>
+<script>
+    function userFormSubmit() {
+        if (isEmpty($("#userId").val())) {
+            layer.msg("用户ID不能为空", {icon: 2, time: 1000});
+            $("#userId").focus();
+            return false;
+        }
+        if (isEmpty($("#userMsg").val())) {
+            layer.msg("用户消息不能为空", {icon: 2, time: 1000});
+            $("#userMsg").focus();
+            return false;
+        }
+
+        $("#userSaveLink").removeAttr('href');
+
+        $.post("/ttmj/server/cs/usermsg/saveUserMsg", {
+            "userId": $("#userId").val(),
+            "userMsg": $("#userMsg").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function (index) {
+                        window.location.href = "/ttmj/server/cs/usermsg/list";
+                    }
+                });
+            } else {
+                $("#userSaveLink").attr('href', 'javascript:userFormSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</html>

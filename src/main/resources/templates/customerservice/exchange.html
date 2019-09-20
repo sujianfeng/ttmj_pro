@@ -1,0 +1,82 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>兑换管理</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/cs/exchange/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服管理 &gt;兑换管理</h3>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="2400px" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>用户ID</td>
+                            <td>用户名</td>
+                            <td>用户电话号码</td>
+                            <td width="300px">用户地址</td>
+                            <td>VIP等级</td>
+                            <td>平台ID</td>
+                            <td>渠道包ID</td>
+                            <td>兑换天天卡数量</td>
+                            <td>商品ID</td>
+                            <td>商品名称</td>
+                            <td>状态</td>
+                            <td>申请时间</td>
+                            <td>兑换时间</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="product,productStat:${page.content}">
+                            <td th:text="${product.userID}">001</td>
+                            <td th:text="${product.name}">上司</td>
+                            <td th:text="${product.tel}">上司</td>
+                            <td th:text="${product.addr}">上司</td>
+                            <td th:text="${product.vip}">上司</td>
+                            <td th:text="${product.platform}">上司</td>
+                            <td th:text="${product.channel}">上司</td>
+                            <td th:text="${product.amount}">上司</td>
+                            <td th:text="${product.goodsID}">上司</td>
+                            <td th:text="${product.goodsName}">上司</td>
+                            <td th:text="${product.status==1?'已兑换':'未处理'}">合作中</td>
+                            <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                            <td th:text="${#dates.format(product.exchangeTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                            <td>
+                        <span th:if="${product.status == 0}" class="red">
+                                <a th:href="@{/server/cs/exchange/duihuan(id=${product.id})}" class="mr25">
+                                <label>兑换</label>
+                         </a></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

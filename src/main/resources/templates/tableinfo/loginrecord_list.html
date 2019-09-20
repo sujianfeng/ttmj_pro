@@ -1,0 +1,135 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>登陆记录</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/loginrecord/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服工具 &gt; 登陆记录</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">登陆时间：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <th>用户ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[2]}"/></td>
+                    <th>类型ID：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[3]=='-1'}" value="-1">全部</option>
+                        <option th:selected="${condition[3]=='0'}" value="0">类型0</option>
+                        <option th:selected="${condition[3]=='1'}" value="1">类型1</option>
+                        <option th:selected="${condition[3]=='2'}" value="2">类型2</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>游戏ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[4]}"/></td>
+                    <th>登陆类型：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[5]=='0'}" value="0">全部</option>
+                        <option th:selected="${condition[5]=='1'}" value="1">自动注册账号</option>
+                        <option th:selected="${condition[5]=='2'}" value="2">已有账号登陆</option>
+                        <option th:selected="${condition[5]=='3'}" value="3">注册账号登陆</option>
+                        <option th:selected="${condition[5]=='4'}" value="4">游客方式</option>
+                        <option th:selected="${condition[5]=='5'}" value="5">登陆或注册账号</option>
+                    </select></td>
+                    <th>SIM卡类型：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[6]=='-1'}" value="-1">全部</option>
+                        <option th:selected="${condition[6]=='0'}" value="0">未知</option>
+                        <option th:selected="${condition[6]=='1'}" value="1">中国移动</option>
+                        <option th:selected="${condition[6]=='2'}" value="2">中国联通</option>
+                        <option th:selected="${condition[6]=='3'}" value="3">中国电信</option>
+                    </select></td>
+                    <th>网络类型：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[7]=='-1'}" value="-1">全部</option>
+                        <option th:selected="${condition[7]=='0'}" value="0">GPRS</option>
+                        <option th:selected="${condition[7]=='1'}" value="1">WIFI</option>
+                        <option th:selected="${condition[7]=='2'}" value="2">3G</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>平台ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[0]}"/></td>
+                    <th>项目ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[9]}"/></td>
+                    <th>平台数字账号：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[10]}"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>用户ID</td>
+                            <td>类型ID</td>
+                            <td>游戏ID</td>
+                            <td>登陆类型</td>
+                            <td>SIM卡类型</td>
+                            <td>网络类型</td>
+                            <td>平台ID</td>
+                            <td>项目ID</td>
+                            <td>平台数字账号</td>
+                            <td>唯一识别号</td>
+                            <td>机器型号</td>
+                            <td>游戏版本号</td>
+                            <td>登陆ip地址</td>
+                            <td>登陆时间</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${page.content}">
+                            <td th:text="${data.userID}">001</td>
+                            <td th:text="${data.typeID}">001</td>
+                            <td th:text="${data.gameID}">001</td>
+                            <td th:text="${data.loginType}">001</td>
+                            <td th:text="${data.simType}">001</td>
+                            <td th:text="${data.netType}">001</td>
+                            <td th:text="${data.platformID}">001</td>
+                            <td th:text="${data.projectID}">001</td>
+                            <td th:text="${data.platformNumber}">001</td>
+                            <td th:text="${data.uuid}">001</td>
+                            <td th:text="${data.model}">001</td>
+                            <td th:text="${data.version}">001</td>
+                            <td th:text="${data.ip}">001</td>
+                            <td th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

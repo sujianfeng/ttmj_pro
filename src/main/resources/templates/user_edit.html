@@ -1,0 +1,107 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户编辑</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>独立包管理 &gt; <a href="/kindle/server/user/list">用户管理</a> &gt;
+                <label th:text="${user.id ==null ?'新增':'编辑'}"></label>
+            </h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">基础信息 </b>
+                        <input type="hidden" class="inp w240" id="id" name="id" th:value="${user.id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="90">用户名：</th>
+                    <td><input type="text" class="inp w240" id="username" name="username"
+                               th:value="${user.username}"/></td>
+                </tr>
+                <tr>
+                    <th>用户密码：</th>
+                    <td><input type="text" class="inp w240" id="pwd" name="pwd" th:value="${user.pwd}"/></td>
+                </tr>
+                <tr>
+                    <th>用户转化率：</th>
+                    <td valign="top"><input type="text" class="inp w240" id="rate" name="rate"
+                                            th:value="${user.rate}"/></td>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><a id="saveLink" href="javascript:formSubmit()" class="btn2 mr25">保存</a>
+                            <a href="javascript:history.back()" class="btn3">取消</a>
+                        </p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function formSubmit() {
+        if (isEmpty($("#username").val())) {
+            layer.msg("用户名不能为空", {icon: 2, time: 1000});
+            $("#username").focus();
+            return false;
+        }
+        if (isEmpty($("#pwd").val())) {
+            layer.msg("用户密码不能为空", {icon: 2, time: 1000});
+            $("#pwd").focus();
+            return false;
+        }
+        if (isEmpty($("#rate").val())) {
+            layer.msg("转化率不能为空", {icon: 2, time: 1000});
+            $("#rate").focus();
+            return false;
+        }
+
+        $("#saveLink").removeAttr('href');
+
+        $.post("/kindle/server/user/save", {
+            "id": $("#id").val(),
+            "username": $("#username").val(),
+            "pwd": $("#pwd").val(),
+            "rate": $("#rate").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: data.isCorrect, btn: ['确定'], yes: function (index) {
+                        window.location.href = "/kindle/server/user/list";
+                    }
+                });
+            } else {
+                $("#saveLink").attr('href', 'javascript:formSubmit()');
+                layer.alert(data.msg, {
+                    icon: data.isCorrect, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</body>
+</html>

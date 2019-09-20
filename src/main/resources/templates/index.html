@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>个人中心</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>个人中心</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td width="224">姓名： <label th:text="${session.user.username}"></label></td>
+                    <td width="224"><a href="#none" class="blue" id="test1">修改密码</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/upload.js}"></script>
+<script>
+    $(function () {
+        $('#test1').on('click', function () {
+                layer.open({
+                    type: 2,
+                    shadeClose: true,
+                    title: ['修改密码', true],
+                    btns: 1,
+                    btnAlign: 'c',
+                    btn: ['保存', '取消'],
+                    skin: 'layui-layer-rim',
+                    area: ['450px', '310px'],
+                    content: ['/kindle/server/change_password.html', 'no'],
+                    yes: function (index) {
+                        var oldPassword = $(layer.getChildFrame('#oldPassword', index)).val();
+                        var newPassword = $(layer.getChildFrame('#newPassword', index)).val();
+                        var confirmPassword = $(layer.getChildFrame('#confirmPassword', index)).val();
+                        if (isEmpty(oldPassword) || isEmpty(newPassword) || isEmpty(confirmPassword)) {
+                            layer.msg('密码字段都不能为空', {icon: 2, time: 2000});
+                            return;
+                        }
+                        if (oldPassword == newPassword || oldPassword == confirmPassword) {
+                            layer.msg('新密码不能和旧密码一致', {icon: 2, time: 2000});
+                            return;
+                        }
+                        if (newPassword != confirmPassword) {
+                            layer.msg('新密码和确认密码不匹配', {icon: 2, time: 2000});
+                            return;
+                        }
+                        $.post("/kindle/server/user/changePassword", {
+                            "oldPassword": oldPassword,
+                            "newPassword": newPassword,
+                            "confirmPassword": confirmPassword
+                        }, function (data) {
+                            layer.msg(data.msg, {icon: data.isCorrect, time: 2000});
+                        }, "json")
+                    }
+                })
+            }
+        )
+    })
+
+    window.onload = function () {
+        new uploadPreview({UpBtn: "up_img", DivShow: "imgdiv", ImgShow: "imgShow"});
+    }
+</script>
+</body>
+</html>

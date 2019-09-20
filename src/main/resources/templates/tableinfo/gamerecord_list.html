@@ -1,0 +1,105 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>游戏记录</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/gamerecord/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服工具 &gt; 游戏记录</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">创建时间：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                    <th>用户ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[2]}"/></td>
+                </tr>
+                <tr>
+                    <th>游戏类型：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[3]=='0'}" value="0">全部</option>
+                        <option th:selected="${condition[3]=='1'}" value="1">类型1</option>
+                        <option th:selected="${condition[3]=='2'}" value="2">类型2</option>
+                        <option th:selected="${condition[3]=='3'}" value="3">类型3</option>
+                    </select></td>
+                    <th>游戏ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[4]}"/></td>
+                    <th>是否开始：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[5]=='-1'}" value="-1">全部</option>
+                        <option th:selected="${condition[5]=='0'}" value="0">未开始</option>
+                        <option th:selected="${condition[5]=='1'}" value="1">已开始</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>房间类型：</th>
+                    <td><select name="condition" class="slc" onchange="search()">
+                        <option th:selected="${condition[6]=='-1'}" value="-1">全部</option>
+                        <option th:selected="${condition[6]=='0'}" value="0">类型0</option>
+                        <option th:selected="${condition[6]=='1'}" value="1">类型1</option>
+                    </select></td>
+                    <th>房间ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[7]}"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>用户ID</td>
+                            <td>游戏类型</td>
+                            <td>游戏ID</td>
+                            <td>房间类型</td>
+                            <td>房间ID</td>
+                            <td>是否开始</td>
+                            <td>创建日期</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${page.content}">
+                            <td th:text="${data.userID}">001</td>
+                            <td th:text="${data.gameType}">001</td>
+                            <td th:text="${data.gameID}">001</td>
+                            <td th:text="${data.roomType}">001</td>
+                            <td th:text="${data.roomID}">001</td>
+                            <td th:text="${data.isStart}">001</td>
+                            <td th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

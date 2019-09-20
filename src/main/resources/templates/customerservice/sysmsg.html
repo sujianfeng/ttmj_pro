@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>系统消息</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/cs/sysmsg/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服管理 &gt;系统消息</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td align="left">
+                        <p><a id="addSysmsg" th:href="@{/server/cs/sysmsg/edit}" class="btn2 mr25">添加公告</a></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="tab1x">
+            <li class="db ww">
+                <table width="2400px" border="0" cellspacing="0" class="tabl tac mgt20">
+                    <thead>
+                    <tr>
+                        <td>公告内容</td>
+                        <td>间隔时间(s)</td>
+                        <td>是否开启</td>
+                        <td>开始日期</td>
+                        <td>结束日期</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
+                        <td>创建时间</td>
+                        <td>修改时间</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr th:each="data,dataStat:${page.content}">
+                        <td th:text="${data.content}">001</td>
+                        <td th:text="${data.interval}">001</td>
+                        <td th:text="${data.enable==1?'开启':'不开启'}">合作中</td>
+                        <td th:text="${#dates.format(data.startDate,'yyyy-MM-dd')}">001</td>
+                        <td th:text="${#dates.format(data.endDate,'yyyy-MM-dd')}">001</td>
+                        <td th:text="${#dates.format(data.startTime,'HH:mm:ss')}">001</td>
+                        <td th:text="${#dates.format(data.endTime,'HH:mm:ss')}">001</td>
+                        <td th:text="${#dates.format(data.createTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                        <td th:text="${#dates.format(data.modifyTime,'yyyy-MM-dd HH:mm:ss')}">001</td>
+                        <td>
+                            <a th:href="@{/server/cs/sysmsg/edit(id=${data.id})}" class="mr25">
+                                <img th:src="@{/images/icon_edit.png}" width="13" height="16" title="编辑" alt=""/></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+        <div class=" page tac" th:include="search_page :: search_page"></div>
+    </div>
+</div>
+</body>
+</html>

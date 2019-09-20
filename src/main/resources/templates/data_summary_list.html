@@ -1,0 +1,101 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户管理</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/kindle/server/data/monthlist?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>独立包管理 &gt; 月数据管理</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">订单时间：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM'})"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="2400" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>日期</td>
+                            <td>产品名称</td>
+                            <td>渠道号</td>
+                            <td>联网用户</td>
+                            <td>渠道联网用户</td>
+                            <td>登陆用户</td>
+                            <td>渠道登陆用户</td>
+                            <td>新注册客</td>
+                            <td>渠道新注册客</td>
+                            <td>付费新客</td>
+                            <td>渠道付费新客</td>
+                            <td>总付费客</td>
+                            <td>渠道总付费客</td>
+                            <td>二次付费客</td>
+                            <td>渠道二次付费客</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${dataList}">
+                            <td th:text="${data.datadate}">600003</td>
+                            <td th:text="${data.productname}">001</td>
+                            <td th:text="${data.channelname}">001</td>
+                            <td th:text="${data.netuserreal}">001</td>
+                            <td th:text="${data.netuser}">001</td>
+                            <td th:text="${data.loginuserreal}">001</td>
+                            <td th:text="${data.loginuser}">001</td>
+                            <td th:text="${data.newuserreal}">001</td>
+                            <td th:text="${data.newuser}">001</td>
+                            <td th:text="${data.payuserreal}">001</td>
+                            <td th:text="${data.payuser}">001</td>
+                            <td th:text="${data.allpayuserreal}">001</td>
+                            <td th:text="${data.allpayuser}">001</td>
+                            <td th:text="${data.secondpayuserreal}">001</td>
+                            <td th:text="${data.secondpayuser}">001</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function search() {
+        var conditionElements = document.getElementsByName("condition");
+        var condition = new Array([conditionElements.length]);
+        for (var i = 0; i < conditionElements.length; i++) {
+            var conditionElement = conditionElements[i];
+            condition[i] = conditionElement.value;
+        }
+        window.location.href = pageUrl + "page=0&size=" + 100 + "&condition=" + condition;
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

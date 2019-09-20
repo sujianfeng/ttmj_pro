@@ -1,0 +1,143 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>VIP统计</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/pr/vip/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>产品报表 &gt;VIP统计</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" class="inp inp1" name="condition" readonly="readonly"
+                               th:value="${condition[0]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" readonly="readonly"
+                               th:value="${condition[1]}"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <th>渠道选择：</th>
+                    <td><input type="text" class="inp" name="condition"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">刷新</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">导出</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="2400" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>日期</td>
+                            <td>渠道</td>
+                            <td>VIP1充值人数</td>
+                            <td>VIP1充值金额</td>
+                            <td>VIP2充值人数</td>
+                            <td>VIP2充值金额</td>
+                            <td>VIP3充值人数</td>
+                            <td>VIP3充值金额</td>
+                            <td>VIP4充值人数</td>
+                            <td>VIP4充值金额</td>
+                            <td>VIP5充值人数</td>
+                            <td>VIP5充值金额</td>
+                            <td>VIP6充值人数</td>
+                            <td>VIP6充值金额</td>
+                            <td>VIP7充值人数</td>
+                            <td>VIP7充值金额</td>
+                            <td>VIP8充值人数</td>
+                            <td>VIP8充值金额</td>
+                            <td>VIP9充值人数</td>
+                            <td>VIP9充值金额</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${dataList}">
+                            <td th:text="${data.d}">001</td>
+                            <td th:text="${data.channel}">1380000011600003</td>
+                            <td th:text="${data.vip1User}">1380000011600003</td>
+                            <td th:text="${data.vip1Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip2User}">1380000011600003</td>
+                            <td th:text="${data.vip2Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip3User}">1380000011600003</td>
+                            <td th:text="${data.vip3Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip4User}">1380000011600003</td>
+                            <td th:text="${data.vip4Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip5User}">1380000011600003</td>
+                            <td th:text="${data.vip5Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip6User}">1380000011600003</td>
+                            <td th:text="${data.vip6Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip7User}">1380000011600003</td>
+                            <td th:text="${data.vip7Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip8User}">1380000011600003</td>
+                            <td th:text="${data.vip8Jine}">1380000011111</td>
+
+                            <td th:text="${data.vip9User}">1380000011600003</td>
+                            <td th:text="${data.vip9Jine}">1380000011111</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <!--<div class=" page tac" th:include="search_page :: search_page"></div>-->
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function search() {
+        var conditionElements = document.getElementsByName("condition");
+        var condition = new Array([conditionElements.length]);
+        for (var i = 0; i < conditionElements.length; i++) {
+            var conditionElement = conditionElements[i];
+            condition[i] = conditionElement.value;
+        }
+        window.location.href = pageUrl + "page=0&size=" + 100 + "&condition=" + condition;
+    }
+
+    function exportExcel() {
+        var conditionElements = document.getElementsByName("condition");
+        var condition = new Array([conditionElements.length]);
+        for (var i = 0; i < conditionElements.length; i++) {
+            var conditionElement = conditionElements[i];
+            condition[i] = conditionElement.value;
+        }
+        var excelUrl = "/wochengPay/server/phoneOrder/alldataExport?";
+        window.location.href = excelUrl + "page=0&size=" + 100 + "&condition=" + condition;
+    }
+
+    /*]]>*/
+</script>
+</html>

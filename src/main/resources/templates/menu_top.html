@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="menu_top" class="top"><a href="/ttmj/server/login.html" class="dc fr">退出</a>
+    <div class="mingc fr"><img th:src="@{/images/t.jpg}" width="40" height="40" alt=""/>
+        <div class="fl"><br/><label th:text="${session.user.username}"></label><br/></div>
+    </div>
+    <img class="logo" th:src="@{/images/logo.png}" width="50" height="24" alt=""/><span>天天麻将运营后台</span></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户留存</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/or/userretention/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;用户留存</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <th>渠道选择：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[2]}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">刷新</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">导出</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="1200px" border="0" cellspacing="0" class="tabl tac mgt20">
+                <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>渠道</td>
+                    <td>用户注册数</td>
+                    <td>2日留存</td>
+                    <td>3日留存</td>
+                    <td>4日留存</td>
+                    <td>5日留存</td>
+                    <td>6日留存</td>
+                    <td>7日留存</td>
+                    <td>14日留存</td>
+                    <td>30日留存</td>
+                    <td>60日留存</td>
+                    <td>90日留存</td>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${page.content}">
+                    <td th:text="${#dates.format(data.d,'yyyy-MM-dd')}">600003</td>
+                    <td th:text="${data.channel}">001</td>
+                    <td th:text="${data.user_reg}">001</td>
+                    <td th:text="${data.retention_2}">001</td>
+                    <td th:text="${data.retention_3}">001</td>
+                    <td th:text="${data.retention_4}">001</td>
+                    <td th:text="${data.retention_5}">001</td>
+                    <td th:text="${data.retention_6}">001</td>
+                    <td th:text="${data.retention_7}">001</td>
+                    <td th:text="${data.retention_14}">001</td>
+                    <td th:text="${data.retention_30}">001</td>
+                    <td th:text="${data.retention_60}">001</td>
+                    <td th:text="${data.retention_90}">001</td>
+                </tr>
+                </tbody>
+            </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

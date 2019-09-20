@@ -1,0 +1,148 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>系统消息</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/upload.js}"></script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服管理 &gt;系统消息 &gt;
+                <label th:text="${sysMsg.id ==null ?'新增':'编辑'}">公告</label>
+            </h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">公告信息 </b>
+                        <input type="hidden" class="inp w240" id="id" name="id" th:value="${sysMsg.id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>公告内容：</th>
+                    <td colspan="3"><input type="text" class="inp_long" id="content" name="content"
+                                           th:value="${sysMsg.content}"/></td>
+                </tr>
+                <tr>
+                    <th>间隔时间(s)：</th>
+                    <td><input type="number" class="inp w240" id="interval" name="interval"
+                               th:value="${sysMsg.interval}"/></td>
+                    <th>是否开启：</th>
+                    <td><select id="enable" name="enable" class="slc">
+                        <option th:selected="${sysMsg.enable ==0}" value="0">不开启</option>
+                        <option th:selected="${sysMsg.enable ==1}" value="1">开启</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>开始日期：</th>
+                    <td><input type="text" class="inp w240" id="startDate" name="startDate" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${sysMsg.startDate}"/></td>
+                    <th>结束日期：</th>
+                    <td><input type="text" class="inp w240" id="endDate" name="endDate" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${sysMsg.endDate}"/></td>
+                </tr>
+                <tr>
+                    <th>开始时间：</th>
+                    <td><input type="text" class="inp w240" id="startTime" name="startTime" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${sysMsg.startTime}"/></td>
+                    <th>结束时间：</th>
+                    <td><input type="text" class="inp w240" id="endTime" name="endTime" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${sysMsg.endTime}"/></td>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><a id="saveLink" href="javascript:formSubmit()" class="btn2 mr25">保存</a>
+                            <a href="javascript:history.back()" class="btn3">取消</a>
+                        </p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function formSubmit() {
+        if (isEmpty($("#content").val())) {
+            layer.msg("公告内容不能为空", {icon: 2, time: 1000});
+            $("#content").focus();
+            return false;
+        }
+        if (isEmpty($("#interval").val())) {
+            layer.msg("间隔时间不能为空", {icon: 2, time: 1000});
+            $("#interval").focus();
+            return false;
+        }
+        if (isEmpty($("#startDate").val())) {
+            layer.msg("结束日期不能为空", {icon: 2, time: 1000});
+            $("#startDate").focus();
+            return false;
+        }
+        if (isEmpty($("#endDate").val())) {
+            layer.msg("开始日期不能为空", {icon: 2, time: 1000});
+            $("#endDate").focus();
+            return false;
+        }
+        if (isEmpty($("#startTime").val())) {
+            layer.msg("开始时间不能为空", {icon: 2, time: 1000});
+            $("#startTime").focus();
+            return false;
+        }
+        if (isEmpty($("#endTime").val())) {
+            layer.msg("结束时间不能为空", {icon: 2, time: 1000});
+            $("#endTime").focus();
+            return false;
+        }
+
+        $("#saveLink").removeAttr('href');
+
+        $.post("/ttmj/server/cs/sysmsg/save", {
+            "id": $("#id").val(),
+            "interval": $("#interval").val(),
+            "content": $("#content").val(),
+            "enable": $("#enable").val(),
+            "startDate": $("#startDate").val(),
+            "endDate": $("#endDate").val(),
+            "startTime": $("#startTime").val(),
+            "endTime": $("#endTime").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function () {
+                        window.location.href = "/ttmj/server/cs/sysmsg/list";
+                    }
+                });
+            } else {
+                $("#saveLink").attr('href', 'javascript:formSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</body>
+</html>

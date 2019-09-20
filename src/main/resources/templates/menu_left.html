@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>菜单</title>
+</head>
+<body>
+<div th:fragment="menu_left" class="left lefto">
+    <ul class="menu">
+        <li><a href="/ttmj/server/index.html" class="h60 cur"><img th:src="@{/images/grzx_1.png}" width="23"
+                                                                   height="19"
+                                                                   alt=""/><span>个人中心</span></a>
+        </li>
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>数据表信息</span></a>
+            <div class="zmenu">
+                <!--<a href="/ttmj/server/gamerecord/list">游戏记录</a>-->
+                <!--<a href="/ttmj/server/loginrecord/list">登陆数据</a>-->
+                <a href="/ttmj/server/nicknameconfig/list">昵称库</a>
+                <a href="/ttmj/server/userinfo/list">用户信息</a>
+                <!--<a href="/ttmj/server/propertyrecord/list">财产变更记录</a>-->
+            </div>
+        </li>
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>用户设置</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/sc/privileges/list">权限设置</a>
+                <a href="/ttmj/server/sc/channeluser/list">渠道用户管理</a>
+            </div>
+        </li>
+
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>后台事物</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/bt/gold/list">金币道具</a>
+                <a href="/ttmj/server/bt/gem/list">宝石话费</a>
+            </div>
+        </li>
+
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>客服管理</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/cs/sysmsg/list">系统消息</a>
+                <a href="/ttmj/server/cs/usermsg/list">用户消息</a>
+                <a href="/ttmj/server/cs/exchange/list">兑换管理</a>
+                <a href="/ttmj/server/cs/suspend/list">封号解封</a>
+                <a href="/ttmj/server/cs/silent/list">玩家禁言</a>
+            </div>
+        </li>
+
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>产品报表</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/pr/lfzcard/list">龙凤至尊卡统计</a>
+                <a href="/ttmj/server/pr/vip/list">VIP统计</a>
+                <a href="/ttmj/server/pr/output/list">产出统计</a>
+                <a href="/ttmj/server/pr/gift/list">系统充值礼包</a>
+            </div>
+        </li>
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>用户分析</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/ua/playcards/list">玩牌统计</a>
+                <a href="/ttmj/server/ua/recharge/list">充值记录</a>
+                <a href="/ttmj/server/ua/rmbuser/list">大R监控</a>
+                <a href="/ttmj/server/ua/prop/list">道具记录</a>
+            </div>
+        </li>
+
+        <li><a href="#none" class="h60"><img th:src="@{/images/hzhb_1.png}" width="20" height="20"
+                                             alt=""/><span>运营报表</span></a>
+            <div class="zmenu">
+                <a href="/ttmj/server/or/payinfo/list">充值付费</a>
+                <a href="/ttmj/server/or/userretention/list">用户留存</a>
+                <a href="/ttmj/server/or/realtimedata/list">实时动态数据</a>
+                <a href="/ttmj/server/or/projectdata/list">项目数据</a>
+                <a href="/ttmj/server/or/realtimepumping/list">实时抽水统计</a>
+                <a href="/ttmj/server/or/inventory/list">库存统计</a>
+                <a href="/ttmj/server/or/expend/list">产出消耗统计</a>
+                <a href="/ttmj/server/or/channelproject/list">平台渠道绑定</a>
+                <a href="/ttmj/server/or/online/list">在线统计</a>
+                <a href="/ttmj/server/or/config/list">运营配置</a>
+            </div>
+        </li>
+
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>项目数据</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/or/projectdata/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;项目数据</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[0]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" class="inp inp1" name="condition" th:value="${condition[1]}"
+                               readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <th>渠道选择：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[2]}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">刷新</a></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">导出</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>渠道</td>
+                    <td>新增注册（日）</td>
+                    <td>活跃（日）</td>
+                    <td>每天在线峰值</td>
+                    <td>日付费人数</td>
+                    <td>日付费总额</td>
+                    <td>宝石总和</td>
+                    <td>扣税</td>
+                    <td>台费</td>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${dataList}">
+                    <td th:text="${data.dataDate}">001</td>
+                    <td th:text="${data.channel}">1380000011600003</td>
+                    <td th:text="${data.regCount}">1380000011600003</td>
+                    <td th:text="${data.activeCount}">1380000011111</td>
+                    <td>0</td>
+                    <td th:text="${data.feeUser}">1380000011600003</td>
+                    <td th:text="${data.totalFee}">001</td>
+                    <td th:text="${data.gemCount}">1380000011111</td>
+                    <td th:text="${data.tax}">001</td>
+                    <td th:text="${data.taifei}">1380000011600003</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class=" page tac" th:include="search_page :: search_page"></div>-->
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function search() {
+        var conditionElements = document.getElementsByName("condition");
+        var condition = new Array([conditionElements.length]);
+        for (var i = 0; i < conditionElements.length; i++) {
+            var conditionElement = conditionElements[i];
+            condition[i] = conditionElement.value;
+        }
+        window.location.href = pageUrl + "page=0&size=" + 100 + "&condition=" + condition;
+    }
+
+    function exportExcel() {
+        var conditionElements = document.getElementsByName("condition");
+        var condition = new Array([conditionElements.length]);
+        for (var i = 0; i < conditionElements.length; i++) {
+            var conditionElement = conditionElements[i];
+            condition[i] = conditionElement.value;
+        }
+        var excelUrl = "/wochengPay/server/phoneOrder/alldataExport?";
+        window.location.href = excelUrl + "page=0&size=" + 100 + "&condition=" + condition;
+    }
+
+    /*]]>*/
+</script>
+</html>

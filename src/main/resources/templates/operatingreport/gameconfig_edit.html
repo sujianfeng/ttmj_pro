@@ -1,0 +1,184 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>运营配置</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/upload.js}"></script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;运营配置 &gt;
+                <label th:text="${gameConfig.id ==null ?'新增':'编辑'}"></label>
+            </h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="4"><b class="f14">配置信息 </b>
+                        <input type="hidden" class="inp w240" id="id" name="id" th:value="${gameConfig.id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>类型：</th>
+                    <td>
+                        <select id="type" name="type" class="slc w240">
+                            <option th:each="ch:${ctlist}" th:value="${ch.type}" th:text="${ch.typeName}"
+                                    th:selected="${ch.type == gameConfig.type}"></option>
+                        </select>
+                    </td>
+                    <th>优先级：</th>
+                    <td><input type="number" class="inp w240" id="priority" name="priority"
+                               th:value="${gameConfig.priority}"/></td>
+                </tr>
+                <tr>
+                    <th>描述说明：</th>
+                    <td colspan="3"><input type="text" class="inp_long" id="description" name="description"
+                                           th:value="${gameConfig.description}"/></td>
+                </tr>
+                <tr>
+                    <th>配置内容：</th>
+                    <td colspan="3">
+                        <textarea id="config" name="config" cols="150" rows="8"
+                                  th:text="${gameConfig.config}"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>平台：</th>
+                    <td><input type="number" class="inp w240" id="platfrom" name="platfrom"
+                               th:value="${gameConfig.platfrom}"/></td>
+                    <th>渠道：</th>
+                    <td><input type="number" class="inp w240" id="channel" name="channel"
+                               th:value="${gameConfig.channel}"/></td>
+                </tr>
+                <tr>
+                    <th>是否有效：</th>
+                    <td><select id="enable" name="enable" class="slc">
+                        <option th:selected="${gameConfig.enable ==1}" value="1">有效</option>
+                        <option th:selected="${gameConfig.enable ==0}" value="0">无效</option>
+                    </select></td>
+                    <th>是否开启：</th>
+                    <td><select id="on" name="on" class="slc">
+                        <option th:selected="${gameConfig.on ==0}" value="0">不开启</option>
+                        <option th:selected="${gameConfig.on ==1}" value="1">开启</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th>开始日期：</th>
+                    <td><input type="text" class="inp w240" id="startDate" name="startDate" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${gameConfig.startDate}"/></td>
+                    <th>结束日期：</th>
+                    <td><input type="text" class="inp w240" id="endDate" name="endDate" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${gameConfig.endDate}"/></td>
+                </tr>
+                <tr>
+                    <th>开始时间：</th>
+                    <td><input type="text" class="inp w240" id="startTime" name="startTime" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${gameConfig.startTime}"/></td>
+                    <th>结束时间：</th>
+                    <td><input type="text" class="inp w240" id="endTime" name="endTime" readonly="readonly"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                               th:value="${gameConfig.endTime}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><a id="saveLink" href="javascript:formSubmit()" class="btn2 mr25">保存</a>
+                            <a href="javascript:history.back()" class="btn3">取消</a>
+                        </p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function formSubmit() {
+        if (isEmpty($("#priority").val())) {
+            layer.msg("优先级不能为空", {icon: 2, time: 1000});
+            $("#priority").focus();
+            return false;
+        }
+        if (isEmpty($("#platfrom").val())) {
+            layer.msg("平台不能为空", {icon: 2, time: 1000});
+            $("#platfrom").focus();
+            return false;
+        }
+        if (isEmpty($("#channel").val())) {
+            layer.msg("渠道不能为空", {icon: 2, time: 1000});
+            $("#channel").focus();
+            return false;
+        }
+        if (isEmpty($("#startDate").val())) {
+            layer.msg("结束日期不能为空", {icon: 2, time: 1000});
+            $("#startDate").focus();
+            return false;
+        }
+        if (isEmpty($("#endDate").val())) {
+            layer.msg("开始日期不能为空", {icon: 2, time: 1000});
+            $("#endDate").focus();
+            return false;
+        }
+        if (isEmpty($("#startTime").val())) {
+            layer.msg("开始时间不能为空", {icon: 2, time: 1000});
+            $("#startTime").focus();
+            return false;
+        }
+        if (isEmpty($("#endTime").val())) {
+            layer.msg("结束时间不能为空", {icon: 2, time: 1000});
+            $("#endTime").focus();
+            return false;
+        }
+
+        $("#saveLink").removeAttr('href');
+
+        $.post("/ttmj/server/or/config/saveConfig", {
+            "id": $("#id").val(),
+            "type": $("#type").val(),
+            "priority": $("#priority").val(),
+            "platfrom": $("#platfrom").val(),
+            "channel": $("#channel").val(),
+            "enable": $("#enable").val(),
+            "on": $("#on").val(),
+            "config": $("#config").val(),
+            "description": $("#description").val(),
+            "startDate": $("#startDate").val(),
+            "endDate": $("#endDate").val(),
+            "startTime": $("#startTime").val(),
+            "endTime": $("#endTime").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function () {
+                        window.location.href = "/ttmj/server/or/config/list";
+                    }
+                });
+            } else {
+                $("#saveLink").attr('href', 'javascript:formSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</body>
+</html>

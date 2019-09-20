@@ -1,0 +1,71 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>平台渠道绑定</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/or/channelproject/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;平台渠道绑定</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th>平台ID：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[0]}"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                    <td colspan="2"><a th:href="@{/server/or/channelproject/editPlatform}" class="btn3">添加平台</a></td>
+                </tr>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+
+            <table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">
+                <thead>
+                <tr>
+                    <td>平台ID</td>
+                    <td>平台名称</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="data,dataStat:${page.content}">
+                    <td th:text="${data.platform}">001</td>
+                    <td th:text="${data.platformName}">001</td>
+                    <td th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                    <td>
+                        <a th:href="@{/server/or/channelproject/editPlatform(id=${data.id})}" class="mr25">编辑</a>
+                        &nbsp; &nbsp;
+                        <a th:href="@{/server/or/channelproject/channellist(condition=${data.id})}"
+                           class="mr25">绑定渠道</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>天天麻将运营后台登录</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+</head>
+<body class="dt">
+<div class="w285"><img th:src="@{/images/logo2.png}" class="mga" alt=""/>
+    <div class="dl">
+        <form action="/ttmj/server/user/login" method="post" name="form">
+            <input type="text" id="username" name="username" class="tt" placeholder="用户名"/>
+            <input type="password" id="password" name="password" class="tt" placeholder="密码"/>
+            <div class="ttw"><input id="code" name="code" type="text" class="tt"
+                                    placeholder="验证码" maxlength="4"/>
+                <img id="codeImage" width="74" height="38" alt="" onclick="refreshCode()" class="yzmp"/></div>
+            <p class="msg" id="msg"></p>
+            <input type="submit" class="btn1" value="登陆"/>
+        </form>
+    </div>
+    <p class="tac f14">Copyright@传阅天下 All Rights Reserved</p>
+</div>
+</body>
+<script type="application/javascript">
+    $(function () {
+
+        refreshCode();
+
+        $("form").submit(function () {
+            if (isEmpty($("#username").val()) || isEmpty($("#password").val())) {
+                $("#msg").html('账号密码不能为空');
+                return false;
+            }
+            if (isEmpty($("#code").val())) {
+                $("#msg").html('验证码不能为空');
+                return false;
+            }
+            return true;
+        })
+
+        showErrMsg();
+
+        $("#username").focus();
+
+    })
+
+    function showErrMsg() {
+        if (!isEmpty($("#errMsg").val())) {
+            $("#msg").html($("#errMsg").val()).show();
+        }
+    }
+
+    function refreshCode() {
+        $("#code").val("");
+        $("#codeImage").attr("src", "/ttmj/server/user/code/generateCode?d=" + new Date().getTime());
+    }
+</script>
+</html>

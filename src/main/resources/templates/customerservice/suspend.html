@@ -1,0 +1,109 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>封号解封</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/cs/suspend/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服管理 &gt;封号解封</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <td colspan="2"><b class="f14">封号处理</b></td>
+                    <td colspan="2"><b class="f14">解除封号</b></td>
+                </tr>
+                <tr>
+                    <th width="90">封号:</th>
+                    <td><input type="text" class="inp w240" id="fenhaoUserID" name="fenhaoUserID"/></td>
+                    <th width="90">解封:</th>
+                    <td><input type="text" class="inp w240" id="jiefenUserId" name="jiefenUserId"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <p><a id="fenhaoSaveLink" href="javascript:fenhaoFormSubmit()" class="btn2 mr25">提交</a></p>
+                    </td>
+                    <td colspan="2" align="center">
+                        <p><a id="jiefenSaveLink" href="javascript:jiefenFormSubmit()" class="btn2 mr25">提交</a></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function fenhaoFormSubmit() {
+        if (isEmpty($("#fenhaoUserID").val())) {
+            layer.msg("用户ID不能为空", {icon: 2, time: 1000});
+            $("#fenhaoUserID").focus();
+            return false;
+        }
+        $("#fenhaoSaveLink").removeAttr('href');
+
+        $.post("/ttmj/server/cs/suspend/fenhao", {
+            "userId": $("#fenhaoUserID").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function (index) {
+                        window.location.href = "/ttmj/server/cs/suspend/list#";
+                    }
+                });
+            } else {
+                $("#fenhaoSaveLink").attr('href', 'javascript:fenhaoFormSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+
+    function jiefenFormSubmit() {
+        if (isEmpty($("#jiefenUserId").val())) {
+            layer.msg("用户ID不能为空", {icon: 2, time: 1000});
+            $("#jiefenUserId").focus();
+            return false;
+        }
+        $("#jiefenSaveLink").removeAttr('href');
+
+        $.post("/ttmj/server/cs/suspend/jiefen", {
+            "userId": $("#jiefenUserId").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                layer.alert(data.msg, {
+                    icon: 1, btn: ['确定'], yes: function () {
+                        window.location.href = "/ttmj/server/cs/suspend/list";
+                    }
+                });
+            } else {
+                $("#jiefenSaveLink").attr('href', 'javascript:jiefenFormSubmit()');
+                layer.alert(data.msg, {
+                    icon: 2, btn: ['确定']
+                });
+            }
+        }, "json")
+    }
+</script>
+</html>

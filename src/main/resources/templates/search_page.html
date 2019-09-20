@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="search_page" class=" page tac">
+                <span th:if="${page.totalPages > 1}">
+                每页显示&nbsp;&nbsp;<select onchange="jumpToPage(1,0,this.value)" name="size"
+                                        class="slc1">
+                <option th:selected="${page.size==5}" value="5">5</option>
+                <option th:selected="${page.size==10}" value="10">10</option>
+                <option th:selected="${page.size==20}" value="20">20</option>
+                <option th:selected="${page.size==50}" value="50">50</option>
+                </select>
+                <label>查询到<label th:text="${page.totalElements}"></label>条数据，共<label
+                        th:text="${page.totalPages}"></label>页，当前显示第<label th:text="${page.number+1}"></label>页</label>
+                <a href="#none" th:onclick="'javascript:jumpToPage(2,0,'+${page.size}+');'">首页</a>
+                <a href="#none"
+                   th:onclick="'javascript:jumpToPage(3,'+${page.number==0?page.number:(page.number-1)}+','+${page.size}+');'">&lt;</a>
+                <a href="#none"
+                   th:onclick="'javascript:jumpToPage(4,'+${page.number==(page.totalPages-1)?page.number:(page.number+1)}+','+${page.size}+');'">&gt;</a>
+                <a href="#none"
+                   th:onclick="'javascript:jumpToPage(5,'+${page.totalPages-1}+','+${page.size}+');'">末页</a>
+                <span>跳转到第<input id="tagetPage" name="tagetPage" type="text" class="inpt" width="10"
+                                 th:value="${page.number+1}" onblur="jumpToPage(6,(this.value-1),'')"/>页</span>
+                </span>
+    <span th:if="${page.totalPages == 1}">
+                每页显示&nbsp;&nbsp;<select onchange="jumpToPage(1,0,this.value)" name="size"
+                                        class="slc1">
+                <option th:selected="${page.size==5}" value="5">5</option>
+                <option th:selected="${page.size==10}" value="10">10</option>
+                <option th:selected="${page.size==20}" value="20">20</option>
+                <option th:selected="${page.size==50}" value="50">50</option>
+                </select>
+                <label>查询到<label th:text="${page.totalElements}"></label>条数据，共<label
+                        th:text="${page.totalPages}"></label>页</label>
+                </span>
+    <span th:if="${page.totalPages == 0}" class="red">
+                                未查询到数据
+                </span>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var requestPage = [[${page.totalPages}]];//总页数
+        var requestSize = [[${page.size}]];//每页大小
+        var number = [[${page.number}]];//当前页(从0开始)
+        var first = [[${page.first}]];//是否首页
+        var last = [[${page.last}]];//是否末页
+        var condition = [[${condition}]];//搜索条件列表
+        function jumpToPage(step, page, size) {
+            if (page == undefined || page == null || page == "" || isNaN(page)) {
+                page = 0;
+            }
+            if (size == undefined || size == null || size == "") {
+                size = requestSize;
+            }
+            if (step == 2 || step == 3) {
+                //点击首页
+                if (first == true) {
+                    layer.msg("已经是第1页了", {icon: 2, time: 1000});
+                    return;
+                }
+            }
+            if (step == 4 || step == 5) {
+                //点击首页
+                if (last == true) {
+                    layer.msg("已经是最后页了", {icon: 2, time: 1000});
+                    return;
+                }
+            }
+            if (step == 6) {
+                page = page > (requestPage - 1) ? requestPage - 1 : page;
+                if (number == page) {
+                    layer.msg("请检查输入的页码", {icon: 2, time: 1000});
+                    return;
+                }
+            }
+            page = page > (requestPage - 1) ? (requestPage - 1) : page;
+            window.location.href = pageUrl + "page=" + page + "&size=" + size + "&condition=" + condition;
+        }
+        function search() {
+            var conditionElements = document.getElementsByName("condition");
+            condition = new Array([conditionElements.length]);
+            for (var i = 0; i < conditionElements.length; i++) {
+                var conditionElement = conditionElements[i];
+                condition[i] = conditionElement.value;
+            }
+            window.location.href = pageUrl + "page=0&size=" + requestSize + "&condition=" + condition;
+        }
+        /*]]>*/
+    </script>
+</div>
+
+</body>
+</html>

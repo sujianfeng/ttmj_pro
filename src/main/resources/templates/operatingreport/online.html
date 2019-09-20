@@ -1,0 +1,143 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>在线统计</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>运营报表 &gt;在线统计</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">日期选择：</th>
+                    <td><input type="text" id="starttime" class="inp inp1" name="starttime"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 00:00:00'})"/></td>
+                    <th width="60">至</th>
+                    <td><input type="text" id="endtime" class="inp inp1" name="endtime"
+                               onClick="laydate({istime: true, format: 'YYYY-MM-DD 23:59:59'})"/></td>
+                    <td><a href="javascript:getOnlineData()" class="btn3">搜索</a></td>
+                </tr>
+
+                </tbody>
+            </table>
+            <div id="main" style="width: 100%;height:500px;"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    function getOnlineData() {
+        if (isEmpty($("#starttime").val())) {
+            layer.msg("开始日期不能为空", {icon: 2, time: 1000});
+            $("#starttime").focus();
+            return false;
+        }
+        if (isEmpty($("#endtime").val())) {
+            layer.msg("结束日期不能为空", {icon: 2, time: 1000});
+            $("#endtime").focus();
+            return false;
+        }
+        $.post("/ttmj/server/or/online/getOnlieData", {
+            "starttime": $("#starttime").val(),
+            "endtime": $("#endtime").val()
+        }, function (data) {
+            var gameType = [];
+            var count1 = [];
+            var count2 = [];
+            var count3 = [];
+            var sumcount = [];
+
+            for (var o in data) {
+                gameType.push(data[o].gameTypeName);
+                count1.push(data[o].count1);
+                count2.push(data[o].count2);
+                count3.push(data[o].count3);
+                sumcount.push(data[o].sumCount);
+            }
+
+            // 指定图表的配置项和数据
+            var option = {
+                // title: {
+                //     text: '游戏人数统计'
+                // },
+                legend: {
+                    data: ['玩牌类型', '初级场', '中级场', '高级场', '总人数']
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        saveAsImage: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    name: '玩牌类型',
+                    data: gameType
+                },
+
+                yAxis: {
+                    type: 'value',
+                    name: '人数'
+                },
+                series: [
+                    {
+                        name: '初级场',
+                        type: 'bar',
+                        data: count1
+                    },
+                    {
+                        name: '中级场',
+                        type: 'bar',
+                        data: count2
+                    },
+                    {
+                        name: '高级场',
+                        type: 'bar',
+                        data: count3
+                    },
+                    {
+                        name: '总人数',
+                        type: 'bar',
+                        data: sumcount
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+        }, "json")
+
+    }
+
+
+</script>
+</html>

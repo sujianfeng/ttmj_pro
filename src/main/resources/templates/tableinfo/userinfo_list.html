@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户信息</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/userinfo/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>客服工具 &gt; 用户信息</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th>用户账号：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[0]}"/></td>
+                    <th>用户昵称：</th>
+                    <td><input type="text" class="inp" name="condition" th:value="${condition[1]}"/></td>
+                    <td colspan="2"><a href="javascript:search()" class="btn3">搜索</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="tab1x">
+                <li class="db ww">
+                    <table width="4800px" border="0" cellspacing="0" class="tabl tac mgt20">
+                        <thead>
+                        <tr>
+                            <td>临时识别码</td>
+                            <td>设备识别码</td>
+                            <td>用户账号</td>
+                            <td>密码</td>
+                            <td>权限</td>
+                            <td>昵称</td>
+                            <td>个性签名</td>
+                            <td>性别</td>
+                            <td>用户类型</td>
+                            <td>内置头像ID</td>
+                            <td>vip类型</td>
+                            <td>vip等级</td>
+                            <td>宝石数量</td>
+                            <td>金币数量</td>
+                            <td>话费(分)</td>
+                            <td>透视卡</td>
+                            <td>遮挡卡</td>
+                            <td>算牌卡</td>
+                            <td>窃听卡</td>
+                            <td>换牌卡</td>
+                            <td>连续登陆天数</td>
+                            <td>老玩家标志</td>
+                            <td>是否注册玩家</td>
+                            <td>是否上传头像</td>
+                            <td>是否认证</td>
+                            <td>充值总金额</td>
+                            <td>首充开始时间</td>
+                            <td>月充值金额</td>
+                            <td>月充值开始时间</td>
+                            <td>上次抽签时间</td>
+                            <td>上次登陆时间</td>
+                            <td>上次领取每日登陆奖励时间</td>
+                            <td>补贴时间</td>
+                            <td>补贴数量</td>
+                            <td>应用平台</td>
+                            <td>发行通道</td>
+                            <td>App版本</td>
+                            <td>凤卡</td>
+                            <td>龙卡</td>
+                            <td>至尊卡</td>
+                            <td>对战场</td>
+                            <td>血流成河</td>
+                            <td>血战到底</td>
+                            <td>最后登陆ip</td>
+                            <td>账号建立时间</td>
+                            <td>上次登陆时间</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr th:each="data,dataStat:${page.content}">
+                            <td th:text="${data.session}">001</td>
+                            <td th:text="${data.udid}">001</td>
+                            <td th:text="${data.account}">001</td>
+                            <td th:text="${data.password}">001</td>
+                            <td th:text="${data.permission}">001</td>
+                            <td th:text="${data.nickname}">001</td>
+                            <td th:text="${data.signature}">001</td>
+                            <td th:text="${data.sex}">001</td>
+                            <td th:text="${data.userType}">001</td>
+                            <td th:text="${data.sysImageID}">001</td>
+                            <td th:text="${data.vipType}">001</td>
+                            <td th:text="${data.vipLevel}">001</td>
+                            <td th:text="${data.gem}">001</td>
+                            <td th:text="${data.gold}">001</td>
+                            <td th:text="${data.et}">001</td>
+                            <td th:text="${data.ts}">001</td>
+                            <td th:text="${data.zd}">001</td>
+                            <td th:text="${data.sp}">001</td>
+                            <td th:text="${data.qt}">001</td>
+                            <td th:text="${data.hp}">001</td>
+                            <td th:text="${data.loginDays}">001</td>
+                            <td th:text="${data.oldPlayer}">001</td>
+                            <td th:text="${data.registerUser}">001</td>
+                            <td th:text="${data.uploadImage}">001</td>
+                            <td th:text="${data.certification}">001</td>
+                            <td th:text="${data.rechargeAmount}">001</td>
+                            <td th:text="${#dates.format(data.rechargeStartTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${data.monthRechargeAmount}">001</td>
+                            <td th:text="${#dates.format(data.monthRechargeStartTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${#dates.format(data.lastDrewLotsTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${#dates.format(data.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${#dates.format(data.lastLoginAwardTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${#dates.format(data.subsidyTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${data.subsidyCount}">001</td>
+                            <td th:text="${data.platform}">001</td>
+                            <td th:text="${data.channel}">001</td>
+                            <td th:text="${data.version}">001</td>
+                            <td th:text="${data.fengCard}">001</td>
+                            <td th:text="${data.longCard}">001</td>
+                            <td th:text="${data.zhiZunCard}">001</td>
+                            <td th:text="${data.dzc}">001</td>
+                            <td th:text="${data.xlch}">001</td>
+                            <td th:text="${data.xzdd}">001</td>
+                            <td th:text="${data.xzdd}">001</td>
+                            <td th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                            <td th:text="${#dates.format(data.lastTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <div class=" page tac" th:include="search_page :: search_page"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

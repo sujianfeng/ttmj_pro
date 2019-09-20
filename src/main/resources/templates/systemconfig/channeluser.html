@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>渠道用户管理</title>
+    <meta name="viewport"
+          content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta http-equiv="Cache-Control" content="must-revalidate,no-cache"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <script type="text/javascript" th:src="@{/js/jQuery_1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+    <script type="text/javascript" th:src="@{/laydate/laydate.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/ttmj/server/sc/channeluser/list?";
+    </script>
+</head>
+<body>
+<div class="top" th:include="menu_top :: menu_top"></div>
+<div class="main">
+    <div class="left lefto" th:include="menu_left :: menu_left"></div>
+    <div class="right">
+        <div class="shuju">
+            <h3><i id="btn1"></i>用户设置 &gt; 渠道用户管理</h3>
+            <table class="search-tab">
+                <tbody>
+                <tr>
+                    <th width="60">用户名称：</th>
+                    <td><input type="text" name="condition"
+                               class="inp"/></td>
+                    <th colspan="7"><a href="#" class="btn3 mr25">尽请</a><a
+                            href="#"
+                            class="btn2"><img
+                            th:src="@{/images/icon_add.png}" width="20" height="19" alt=""/>期待</a></th>
+                </tr>
+                </tbody>
+            </table>
+            <!--<table width="100%" border="0" cellspacing="0" class="tabl tac mgt20">-->
+            <!--<thead>-->
+            <!--<tr>-->
+            <!--<td width="10%">序号</td>-->
+            <!--<td width="25%">产品名称</td>-->
+            <!--<td width="25%">添加日期</td>-->
+            <!--<td width="15%">操作</td>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--</table>-->
+            <!--<div class=" page tac" th:include="search_page :: search_page"></div>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
